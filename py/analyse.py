@@ -24,11 +24,16 @@ def decode_unicode_references(data):
     lib.log('ncr ====================');
     return re.sub("(&#x(.*?);)", _callback, data);
 
+def saveContent(title,content):
+    outpath = os.path.abspath('.')+"/output/"+title+".txt";
+    f = open(outpath,"a");  # a 追加内容 ； 使用'W'，文件若存在，首先要清空，然后（重新）创建，
+    f.write(content);
+    f.close();
 
 #净化内容
 def pureContent(s):
-	content = (re.findall(rcontentkey,s))[0];
-
+#	content = (re.findall(rcontentkey,s))[0];
+	content = s;
 	#去掉 div span p等html元素
 	patterns = ['<div(.*?)>','<span(.*?)>','<p(.*?)>','<ul(.*?)>','<li(.*?)>','<b(.*?)>','</(.*?)>','<a(.*?)>'];
 	for pt in patterns :
@@ -49,8 +54,9 @@ def pureContent(s):
 	});
 	'''
 	content = decode_unicode_references(content);
-
 	lib.log(content);
+
+	return content;
 
 
 
@@ -60,12 +66,15 @@ furl = os.path.abspath('.')+"/input/threadowner-o-200099-69383635-1.html#pvareai
 rfile = open(furl);
 filecontent = rfile.read();
 titles = re.findall(titlekey,filecontent);
+title = "";
 if len(titles) == 1:
+	title = titles[0];
 	lib.log(titles[0]);
 contents = re.findall(contentkey,filecontent,re.S);
-lib.log(len(contents));
-lib.log(contents[1]);
-pureContent(contents[1]);
+for c in contents:
+	rltcon = pureContent(c);
+	saveContent(title,rltcon);
+
 
 
 
