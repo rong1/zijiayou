@@ -4,7 +4,9 @@ import re
 import os
 import lib
 titlekey = ' <div class="maxtitle">(.*?)</div>' ;
-contentkey = '<div class="w740">(.*?)<!--end conright-->' ;
+#contentkey = '<div class="w740">(.*?)<!--end conright-->' ;
+contentkey = '<div class="w740">(.*?)<!-----------赏start----------->' ;
+
 rcontentkey = '(.*?)<!-----------赏start----------->' ;
 
 
@@ -35,7 +37,7 @@ def pureContent(s):
 #	content = (re.findall(rcontentkey,s))[0];
 	content = s;
 	#去掉 div span p等html元素
-	patterns = ['<div(.*?)>','<span(.*?)>','<p(.*?)>','<ul(.*?)>','<li(.*?)>','<b(.*?)>','</(.*?)>','<a(.*?)>'];
+	patterns = ['<div(.*?)>','<span(.*?)>','<p(.*?)>','<ul(.*?)>','<li(.*?)>','<b(.*?)>','<strong(.*?)>','</(.*?)>','<a(.*?)>'];
 	for pt in patterns :
 		content = re.sub(pt,'%',content); #用%，方便正则查找
 
@@ -61,7 +63,7 @@ def pureContent(s):
 
 
 #读取文件内容
-furl = os.path.abspath('.')+"/input/threadowner-o-200099-69383635-1.html#pvareaid=101435.txt";
+furl = os.path.abspath('.')+"/input/朝阳沟的雪凇犹如梨花盛开.html.txt";
 
 rfile = open(furl);
 filecontent = rfile.read();
